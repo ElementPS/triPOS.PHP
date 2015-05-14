@@ -46,14 +46,14 @@ $tpAuthorization = "Version=".$context->tpAuthorizationVersion.", Credential=".$
 
 // Set an array for the base required headers.
 $headers = array(
-		'Content-Type: ' . $payloadFormat,
-		'Accept: ' . $payloadFormat,
-		'tp-application-id: 1234',
-		'tp-application-name: triPOS.PHP',
-		'tp-application-version: 1.0.0',
-		'tp-authorization: ' . $tpAuthorization,
-		'tp-return-logs: false',
-		);
+	'Content-Type: ' . $payloadFormat,
+	'Accept: ' . $payloadFormat,
+	'tp-application-id: 1234',
+	'tp-application-name: triPOS.PHP',
+	'tp-application-version: 1.0.0',
+	'tp-authorization: ' . $tpAuthorization,
+	'tp-return-logs: false',
+	);
 
 if($context->request != null){
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $context->request);
@@ -78,26 +78,22 @@ $callResponse = curl_exec($ch);
 ##Step 4: Receive response from triPOS
 
 ```
-		$callResponse = curl_exec($ch);
-		
-		// If there was an error, gather the error number and the error text message.
-		$err = curl_errno($ch);
-		$errMsg = curl_error($ch);
+$callResponse = curl_exec($ch);
 
-		curl_close($ch);
-		
-		$context->status = "Error";
-		$context->response = "An unexpected error occurred";
-
-		if($err==0){
-			$context->status = "Success";
-			$context->response = $callResponse;
-		}
-		else{
-			$context->status = "Error";
-			$context->response = "An unexpected error occurred: $err - $errMsg";
-		}
-		
+// If there was an error, gather the error number and the error text message.
+$err = curl_errno($ch);
+$errMsg = curl_error($ch);
+curl_close($ch);
+$context->status = "Error";
+$context->response = "An unexpected error occurred";
+if($err==0){
+	$context->status = "Success";
+	$context->response = $callResponse;
+}
+else{
+	$context->status = "Error";
+	$context->response = "An unexpected error occurred: $err - $errMsg";
+}
 ```
 
 ##Step 5: Parse response data
