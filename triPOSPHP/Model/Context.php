@@ -10,5 +10,7 @@
 		public $tpAuthorizationVersion = null;
 		public $tpAuthorizationCredential = null;
 		public $submitted = null;
+		public $xmlNameSpaceName = null;
+		public $xmlNameSpaceURL = null;
 	}
 ?>

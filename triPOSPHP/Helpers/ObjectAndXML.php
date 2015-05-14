@@ -11,8 +11,8 @@ class ObjectAndXML {
 	}
  
 	// Method to convert Object into XML string
-	public function objToXML($obj) {
-		$this->xml->startElementNS("ns2", get_class($obj), "http://tripos.vantiv.com/2014/09/TriPos.Api");
+	public function objToXML($obj, $ns, $nsurl) {
+		$this->xml->startElementNS($ns, get_class($obj), $nsurl);
 
 		$this->getObject2XML($this->xml, $obj);
  
@@ -23,10 +23,6 @@ class ObjectAndXML {
 		return $this->xml->outputMemory(true);
 	}
  
-	// Method to convert XML string into Object
-	public function xmlToObj($xmlString) {
-		return simplexml_load_string($xmlString);
-	}
  
 	private function getObject2XML(XMLWriter $xml, $data) {
 		foreach($data as $key => $value) {

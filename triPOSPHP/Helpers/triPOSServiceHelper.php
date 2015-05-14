@@ -61,13 +61,6 @@ class triPOSServiceHelper   {
 		}
 
 		return $context;
-	}
-	
-	public static function postSubmissionToTriPOS($context){
-
-		$context = triPOSServiceHelper::callTriPOS($context);
-		
-		return $context;
 	}	
 }
 ?>

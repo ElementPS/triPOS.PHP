@@ -9,7 +9,13 @@
 	include_once("Model/Context.php");
 
 	$context = new Context();
+	$context->pathToTriPOSConfig = "C:\\Program Files (x86)\\Vantiv\\triPOS Service\\triPOS.config";
+	$context->serviceAddress = "http://localhost:8080/api/v1/sale";
+	$context->tpAuthorizationVersion = "1.0";
+	$context->xmlNameSpaceName = "ns2";
+	$context->xmlNameSpaceURL = "http://tripos.vantiv.com/2014/09/TriPos.Api";
 	$context->submitted = False;
+
 	$model = new SaleRequest();
 	$model->address = new Address();
 	$model->address->BillingAddress1 = "123 Sample Street";
@@ -42,18 +48,20 @@
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
+		if(isset($_POST['laneId'])) {
+			$context->model->laneId = (int) $_POST['laneId'];
+		}
+
 		if(isset($_POST['useJSON']) && $_POST['useJSON'] == 'on') {
 			$context->useJSON = True;
+			$context->request = ObjectHelper::toJson($context->model);
 		} else {
 			$context->useJSON = False;
-			$xmlHelper = new ObjectAndXML();		
-			$context->request = $xmlHelper->objToXML($context->model);
+			$xmlHelper = new ObjectAndXML();	
+			$context->request = $xmlHelper->objToXML($context->model, $context->xmlNameSpaceName, $context->xmlNameSpaceURL);
 		}
 
 		$context->submitted = True;
-		$context->pathToTriPOSConfig = "C:\\Program Files (x86)\\Vantiv\\triPOS Service\\triPOS.config";
-		$context->serviceAddress = "http://localhost:8080/api/v1/sale";
-		$context->tpAuthorizationVersion = "1.0";
 
 		if (file_exists($context->pathToTriPOSConfig)) {
 			$xml_file_content = file_get_contents($context->pathToTriPOSConfig);
@@ -67,7 +75,7 @@
 			echo "File does not exist";
 		}
 	
-		$context = triPOSServiceHelper::postSubmissionToTriPOS($context);
+		$context = triPOSServiceHelper::callTriPOS($context);
 	}
 	
 	$doc = new AppDoc($context);

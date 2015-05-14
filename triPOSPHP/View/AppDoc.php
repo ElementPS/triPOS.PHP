@@ -41,7 +41,7 @@ $data
 	<footer> 
 		<div class='content-wrapper'>
 			<div class='float-left'>
-				<p>&copy; 2015 - Element</p>
+				<p>Brought to you by Element Payment Services, Inc., a Vantiv company.</p>
 			</div>
 		</div>
 	</footer>
