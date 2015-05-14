@@ -8,7 +8,11 @@
 
 This repository demonstrates an integration to the triPOS product using PHP.  The code was tested using PHP 5.3.28 installed with the Microsoft Web Platform Installer 5.0.  This allowed for testing the integration via Microsoft's IIS webserver.  After cloning the repository copy the triPOSPHP folder to your web root, then open a web browser and navigate to:  http://localhost/triPOSPHP/Application.php.
 
-This sample application demonstrates sending a Credit Sale transaction using both XML and JSON payloads.
+This sample application demonstrates sending a Credit Sale transaction using either XML and JSON payloads.
+
+The first screenshot below shows the initial page where you can select to use JSON (checked) or XML (unchecked), modify the laneId, and see the hard coded JSON request that will be sent to triPOS for further processing.  
+
+The second screenshot is the result of pressing the 'Process triPOS Request' button on the initial page.  Success/failure will be displayed along with the request sent to triPOS and the response received from triPOS.
 
 ![triPOS.PHP](https://github.com/ElementPS/triPOS.PHP/blob/master/screenshot1.PNG)
 
@@ -31,7 +35,7 @@ Please contact your Integration Team member for any questions about the below pr
 
 ##Step 1: Generate a request package
 
-You can either generate an XML request or a JSON request.  This example shows the JSON request.  Also notice that the value in laneId is 9999.  This is the 'null' laneId meaning a transaction will flow through the system without requiring hardware.  All lanes are configured in the triPOS.config file located at:  C:\Program Files (x86)\Vantiv\triPOS Service (if you kept the default installation directory).  If you modify this file make sure to restart the triPOS.NET service in the Services app to read in your latest triPOS.config changes.
+You can generate either an XML request or a JSON request.  This example shows the JSON request.  Also notice that the value in laneId is 9999.  This is the 'null' laneId meaning a transaction will flow through the system without requiring hardware.  All lanes are configured in the triPOS.config file located at:  C:\Program Files (x86)\Vantiv\triPOS Service (if you kept the default installation directory).  If you modify this file make sure to restart the triPOS.NET service in the Services app to read in your latest triPOS.config changes.
 
 ```
 {"address":{"BillingAddress1":"123 Sample Street","BillingAddress2":"Suite 101","BillingCity":"Chandler","BillingPostalCode":"85224","BillingState":"AZ"},"emvFallbackReason":"None","transactionAmount":3.25,"clerkNumber":"Clerk101","configuration":{"allowPartialApprovals":false,"checkForDuplicateTransactions":true,"currencyCode":"Usd","marketCode":"Retail"},"laneId":9999,"referenceNumber":"Ref000001","shiftId":"ShiftA","ticketNumber":"T0000001"}
