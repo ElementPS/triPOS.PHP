@@ -20,7 +20,7 @@ The second screenshot is the result of pressing the 'Process triPOS Request' but
 
 ##Prerequisites
 
-Please contact your Integration Team member for any questions about the below prerequisites.
+Please contact your Integration Analyst for any questions about the below prerequisites.
 
 * Register and download the triPOS application: https://mft.elementps.com/backend/plugin/Registration/ (once activated, login at https://mft.elementps.com)
 * Create Express test account: http://www.elementps.com/Resources/Create-a-Test-Account
