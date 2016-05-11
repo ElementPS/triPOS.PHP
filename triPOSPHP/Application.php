@@ -64,13 +64,11 @@
 		$context->submitted = True;
 
 		if (file_exists($context->pathToTriPOSConfig)) {
-			$xml_file_content = file_get_contents($context->pathToTriPOSConfig);
-			$devpos = strpos($xml_file_content, "<developerKey>");
-			$devendpos = strpos($xml_file_content, "</developerKey>");
-			$start = $devpos + 14;
-			$length = $devendpos - $devpos - 14;
-			$data = substr($xml_file_content, $start, $length);
-			$context->tpAuthorizationCredential = $data;
+      $xml = simplexml_load_file($context->pathToTriPOSConfig); 
+      $dev_key = $xml->developers[0]->developer[0]->developerKey[0];
+      $dev_secret = $xml->developers[0]->developer[0]->developerSecret[0];
+			$context->tpAuthorizationCredential = $dev_key;
+			$context->tpAuthorizationSecret = $dev_secret;
 		} else {
 			echo "File does not exist";
 		}
