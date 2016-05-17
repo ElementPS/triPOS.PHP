@@ -43,26 +43,39 @@ You can generate either an XML request or a JSON request.  This example shows th
 
 ##Step 2:Create message headers
 
-The tp-authorization header below is only useful while testing as the full set of header information is not provided. This example will be updated with that information in a future release. For now refer to the integration guide for more information on constructing the headers needed for a production environment.
+The tp-authorization header below is only useful while testing as the full set of header information is not provided. If needed, refer to the integration guide for more information on constructing the headers needed for a production environment. To see an example, look in `Helpers/triPOSServiceHelper.php`.
 
 ```
-$tpAuthorization = "Version=".$context->tpAuthorizationVersion.", Credential=".$context->tpAuthorizationCredential;
+  private function createAuthHeader($url, $method, $body, $headers, $dev_key, $dev_secret) {
+    $algorithm = "tp-hmac-md5";
+    $nonce = uniqid();
+    $request_date = date("c");
+    $parsed_url = parse_url($url);
+    $canonical_uri = $parsed_url["path"];
+    $canonical_query_str = $parsed_url["query"];
+    $body_hash = triPOSServiceHelper::getBodyHash($body);
 
-// Set an array for the base required headers.
-$headers = array(
-	'Content-Type: ' . $payloadFormat,
-	'Accept: ' . $payloadFormat,
-	'tp-application-id: 1234',
-	'tp-application-name: triPOS.PHP',
-	'tp-application-version: 1.0.0',
-	'tp-authorization: ' . $tpAuthorization,
-	'tp-return-logs: false',
-	);
+    //1. Get the header information
+    $canonical_header_info = triPOSServiceHelper::getCanonicalHeaderInfo($headers);
+    $canonical_signed_headers = $canonical_header_info["canonical_signed_headers"];
+    $canonical_header_str = $canonical_header_info["canonical_header_str"];
 
-if($context->request != null){
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $context->request);
-	array_push($headers, 'Content-Length: ' . strlen($context->request));
-}
+    // 2. Calculate the request hash
+    $request_hash = triPOSServiceHelper::getCanonicalRequestHash(
+      $method, $canonical_uri, $canonical_query_str,
+      $canonical_header_str, $canonical_signed_headers, $body_hash
+    );
+
+    // 3. Get the signature hash
+    $key_signature_hash = triPOSServiceHelper::getKeySignatureHash($request_date, $nonce . $dev_secret);
+    $unhashed_signature = strtoupper($algorithm) . "\n" . $request_date .  "\n" . $dev_key . "\n" . $request_hash;
+
+    // 4. Get the actual auth signature
+    $signature = triPOSServiceHelper::getKeySignatureHash($key_signature_hash, $unhashed_signature);
+
+    // 5. Create the auth header
+   return "Version=1.0,Algorithm=".strtoupper($algorithm).",Credential=".$dev_key.",SignedHeaders=".$canonical_signed_headers.",Nonce=".$nonce.",RequestDate=".$request_date.",Signature=".$signature;
+  }
 ```
 
 ##Step 3: Send request to triPOS
