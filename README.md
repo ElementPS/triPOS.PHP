@@ -122,6 +122,16 @@ Some information from the response below has been removed for brevity. Currently
 
 ```
 
+##Other Examples
+### triPOS Signature Output
+See the file `signature.php` in `triPOS.PHP/triPOSPHP/Examples`
+
+To run the example you can use the php built in web server:
+
+`php -S localhost:8080 signature.php`
+
+Then browse to `http://localhost:8080` and you should see "Hello" drawn from points in your browser.:
+
 ###©2014-2015 Element Payment Services, Inc., a Vantiv company. All Rights Reserved.
 
 Disclaimer:
