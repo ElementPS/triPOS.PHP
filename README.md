@@ -1,14 +1,14 @@
 # triPOS.PHP
 
-<a href="https://developer.vantiv.com/?utm_campaign=githubcta&utm_medium=hyperlink&utm_source=github&utm_content=gotquestions">Got questions? Connect with our experts on Vantiv ONE.</a>
+<a href="https://developer.vantiv.com/?utm_campaign=githubcta&utm_medium=hyperlink&utm_source=github&utm_content=gotquestions">Got questions? Connect with our experts on Worldpay ONE.</a>
 
-<a href="https://developer.vantiv.com/?utm_campaign=githubcta&utm_medium=hyperlink&utm_source=github&utm_content=codingforcommerce">Are you coding for commerce? Connect with our experts on Vantiv ONE.</a>
+<a href="https://developer.vantiv.com/?utm_campaign=githubcta&utm_medium=hyperlink&utm_source=github&utm_content=codingforcommerce">Are you coding for commerce? Connect with our experts on Worldpay ONE.</a>
 
 * Questions?  certification@elementps.com
 * **Feature request?** Open an issue.
 * Feel like **contributing**?  Submit a pull request.
 
-##Overview
+## Overview
 
 This repository demonstrates an integration to the triPOS product using PHP.  The code was tested using PHP 5.3.28 installed with the Microsoft Web Platform Installer 5.0.  This allowed for testing the integration via Microsoft's IIS webserver.  After cloning the repository copy the triPOSPHP folder to your web root, then open a web browser and navigate to:  http://localhost/triPOSPHP/Application.php.
 
@@ -22,7 +22,7 @@ The second screenshot is the result of pressing the 'Process triPOS Request' but
 
 ![triPOS.PHP](https://github.com/ElementPS/triPOS.PHP/blob/master/screenshot2.PNG)
 
-##Prerequisites
+## Prerequisites
 
 Please contact your Integration Analyst for any questions about the below prerequisites.
 
@@ -32,12 +32,12 @@ Please contact your Integration Analyst for any questions about the below prereq
 * Optionally install a hardware peripheral and obtain test cards (but you can be up and running without hardware for testing purposes)
 * Currently triPOS is supported on Windows 7
 
-##Documentation/Troubleshooting
+## Documentation/Troubleshooting
 
 * To view the triPOS embedded API documentation point your favorite browser to: http://localhost:8080/help/ (for a default install).
 * In addition to the help documentation above triPOS writes information to a series of log files located at:  C:\Program Files (x86)\Vantiv\triPOS Service\Logs (for a default install).
 
-##Step 1: Generate a request package
+## Step 1: Generate a request package
 
 You can generate either an XML request or a JSON request.  This example shows the JSON request.  Also notice that the value in laneId is 9999.  This is the 'null' laneId meaning a transaction will flow through the system without requiring hardware.  All lanes are configured in the triPOS.config file located at:  C:\Program Files (x86)\Vantiv\triPOS Service (if you kept the default installation directory).  If you modify this file make sure to restart the triPOS.NET service in the Services app to read in your latest triPOS.config changes.
 
@@ -45,7 +45,7 @@ You can generate either an XML request or a JSON request.  This example shows th
 {"address":{"BillingAddress1":"123 Sample Street","BillingAddress2":"Suite 101","BillingCity":"Chandler","BillingPostalCode":"85224","BillingState":"AZ"},"emvFallbackReason":"None","transactionAmount":3.25,"clerkNumber":"Clerk101","configuration":{"allowPartialApprovals":false,"checkForDuplicateTransactions":true,"currencyCode":"Usd","marketCode":"Retail"},"laneId":9999,"referenceNumber":"Ref000001","shiftId":"ShiftA","ticketNumber":"T0000001"}
 ```
 
-##Step 2:Create message headers
+## Step 2:Create message headers
 
 The tp-authorization header below is only useful while testing as the full set of header information is not provided. If needed, refer to the integration guide for more information on constructing the headers needed for a production environment. To see an example, look in `Helpers/triPOSServiceHelper.php`.
 
@@ -82,7 +82,7 @@ The tp-authorization header below is only useful while testing as the full set o
   }
 ```
 
-##Step 3: Send request to triPOS
+## Step 3: Send request to triPOS
 
 Use any http library to send a request to triPOS which is listening on a local address:  http://localhost:8080/api/v1/sale (if you kept the install default).
 
@@ -96,7 +96,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 $callResponse = curl_exec($ch);
 ```
 
-##Step 4: Receive response from triPOS
+## Step 4: Receive response from triPOS
 
 ```
 $callResponse = curl_exec($ch);
@@ -126,7 +126,7 @@ Some information from the response below has been removed for brevity. Currently
 
 ```
 
-##Other Examples
+## Other Examples
 ### triPOS Signature Output
 See the file `signature.php` in `triPOS.PHP/triPOSPHP/Examples`
 
@@ -136,7 +136,7 @@ To run the example you can use the php built in web server:
 
 Then browse to `http://localhost:8080` and you should see "Hello" drawn from points in your browser.:
 
-###©2014-2015 Element Payment Services, Inc., a Vantiv company. All Rights Reserved.
+#### © 2018 Worldpay, LLC and/or its affiliates. All rights reserved.
 
 Disclaimer:
 This software and all specifications and documentation contained herein or provided to you hereunder (the "Software") are provided free of charge strictly on an "AS IS" basis. No representations or warranties are expressed or implied, including, but not limited to, warranties of suitability, quality, merchantability, or fitness for a particular purpose (irrespective of any course of dealing, custom or usage of trade), and all such warranties are expressly and specifically disclaimed. Element Payment Services, Inc., a Vantiv company, shall have no liability or responsibility to you nor any other person or entity with respect to any liability, loss, or damage, including lost profits whether foreseeable or not, or other obligation for any cause whatsoever, caused or alleged to be caused directly or indirectly by the Software. Use of the Software signifies agreement with this disclaimer notice.
